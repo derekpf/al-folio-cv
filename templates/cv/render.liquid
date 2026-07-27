@@ -122,7 +122,7 @@
         {% assign empty_array = '' | split: ',' %}
         {% assign exp = cv.sections.Experience | default: empty_array %}
         {% assign vol = cv.sections.Volunteer | default: empty_array %}
-        {% assign combined_experience = exp | concat: vol %}
+        {% assign combined_experience = exp | concat: vol | al_cv_sort_by_date %}
         {% if combined_experience.size > 0 %}
           <a class="anchor" id="experience"></a>
           <div class="card mt-3 p-3">
@@ -149,7 +149,7 @@
             <h3 class="card-title font-weight-medium">{{ section_title }}</h3>
             <div>
               {% if section_title == 'Education' %}
-                {% assign entries = section_entries %}
+                {% assign entries = section_entries | al_cv_sort_by_date %}
                 {% include cv/education.liquid %}
               {% elsif section_title == 'Awards' or section_title == 'Honors and Awards' %}
                 {% assign entries = section_entries %}
@@ -261,7 +261,7 @@
         {% assign empty_array = '' | split: ',' %}
         {% assign work = site.data.resume.work | default: empty_array %}
         {% assign vol = site.data.resume.volunteer | default: empty_array %}
-        {% assign combined_experience = work | concat: vol %}
+        {% assign combined_experience = work | concat: vol | al_cv_sort_by_date %}
         {% if combined_experience.size > 0 %}
           <a class="anchor" id="experience"></a>
           <div class="card mt-3 p-3">
@@ -279,7 +279,7 @@
           <div class="card mt-3 p-3">
             <h3 class="card-title font-weight-medium">Education</h3>
             <div>
-              {% assign entries = site.data.resume.education %}
+              {% assign entries = site.data.resume.education | al_cv_sort_by_date %}
               {% include cv/education.liquid %}
             </div>
           </div>

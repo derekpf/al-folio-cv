@@ -2,6 +2,7 @@
 
 require "jekyll"
 require_relative "al_folio_cv/version"
+require_relative "al_folio_cv/filters"
 
 module AlFolioCv
   PLUGIN_ROOT = File.expand_path("..", __dir__)
@@ -46,6 +47,7 @@ module AlFolioCv
 end
 
 Liquid::Template.register_tag("al_folio_cv_render", AlFolioCv::RenderTag)
+Liquid::Template.register_filter(AlFolioCv::Filters)
 
 Jekyll::Hooks.register :site, :after_init do |site|
   next unless site.respond_to?(:includes_load_paths)
