@@ -6,9 +6,11 @@
   {% for entry in entries %}
     <li class="list-group-item">
       <div class="row">
+        {% comment %} `capture` keeps the surrounding whitespace, so strip before testing for emptiness {% endcomment %}
         {% capture start_date %}
           {% if entry.date %}{{ entry.date }}{% endif %}
         {% endcapture %}
+        {% assign start_date = start_date | strip %}
 
         {% if start_date != '' %}
           <div class="col-xs-2 col-sm-2 col-md-2 text-center">
