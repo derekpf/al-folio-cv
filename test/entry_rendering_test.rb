@@ -61,7 +61,12 @@ class EntryRenderingTest < Minitest::Test
       output = render.call([{ "start_date" => "2020-01-01", "location" => "Berlin, Germany" }])
 
       assert_includes output, "iconlocation", "#{name}.liquid should render a location row when a location is set"
-      assert_includes output, "Berlin, Germany"
+      if name == "experience"
+        assert_includes output, '<span class="location-line">Berlin</span>'
+        assert_includes output, '<span class="location-line">Germany</span>'
+      else
+        assert_includes output, "Berlin, Germany"
+      end
     end
   end
 

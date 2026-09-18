@@ -8,7 +8,7 @@
 <ul class="card-text font-weight-light list-group list-group-flush">
   {% for entry in entries %}
     <li class="list-group-item">
-      <div class="row">
+      <div class="row experience-row">
         <div class="col-xs-2 col-sm-2 col-md-2 text-center date-column">
           {% comment %} `capture` keeps the surrounding whitespace, so strip before testing for emptiness {% endcomment %}
           {% capture start_date %}
@@ -54,11 +54,18 @@
               {% endcapture %}
               {% assign location = location | strip %}
               {% if location != '' %}
+                {% assign location_parts = location | split: ',' %}
+                {% assign location_city = location_parts | first | strip %}
+                {% assign location_state = location_parts | last | strip %}
+                {% if location_parts.size == 1 %}
+                  {% assign location_state = '' %}
+                {% endif %}
                 <tr>
                   <td>
-                    <p class="location">
-                      <i class="fa-solid fa-location-dot iconlocation"></i>
-                      {{ location }}
+                    <p class="location experience-location">
+                      <span class="location-line location-icon-line"><i class="fa-solid fa-location-dot iconlocation"></i></span>
+                      <span class="location-line">{{ location_city }}</span>
+                      <span class="location-line">{{ location_state }}</span>
                     </p>
                   </td>
                 </tr>
@@ -66,7 +73,7 @@
             </tbody>
           </table>
         </div>
-        <div class="col-xs-10 col-sm-10 col-md-10 mt-2 mt-md-0">
+        <div class="col-xs-10 col-sm-10 col-md-10 mt-2 mt-md-0 experience-details">
           {% capture position_title %}
             {% if entry.position %}{{ entry.position }}{% endif %}
           {% endcapture %}
