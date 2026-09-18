@@ -10,5 +10,10 @@ module AlFolioCv
     def al_cv_sort_by_date(input)
       AlFolioCv::DateSorting.sort(input)
     end
+
+    # Formats CV partial dates for compact work-history labels.
+    def al_cv_format_date(input)
+      AlFolioCv::DateSorting.format(input)
+    end
   end
 end

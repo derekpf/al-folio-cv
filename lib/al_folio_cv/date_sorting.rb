@@ -26,6 +26,7 @@ module AlFolioCv
 
     ONGOING_RANK = Float::INFINITY
     UNDATED_RANK = -Float::INFINITY
+    MONTH_LABELS = %w[Jan. Feb. Mar. Apr. May Jun. Jul. Aug. Sep. Oct. Nov. Dec.].freeze
 
     module_function
 
@@ -39,6 +40,30 @@ module AlFolioCv
              .map { |entry, index| [entry, sort_key(entry, index)] }
              .sort_by(&:last)
              .map(&:first)
+    end
+
+    # Formats year, partial-date, full-date, and ongoing values for compact CV labels.
+    def format(value)
+      case value
+      when nil
+        ""
+      when Date, DateTime, Time
+        format_parts(value.year, value.month)
+      when Numeric
+        value.to_i.to_s
+      when String, Symbol
+        text = value.to_s.strip
+        return "" if text.empty?
+        return "Present" if ONGOING_VALUES.include?(text.downcase)
+
+        if (match = PARTIAL_DATE.match(text))
+          format_parts(match[1].to_i, match[2]&.to_i)
+        else
+          text
+        end
+      else
+        value.to_s.strip
+      end
     end
 
     def sort_key(entry, index)
@@ -103,6 +128,12 @@ module AlFolioCv
       else
         compose(year, month || 1, day || 1)
       end
+    end
+
+    def format_parts(year, month)
+      return year.to_i.to_s unless month && month.between?(1, 12)
+
+      "#{MONTH_LABELS[month - 1]} #{year}"
     end
 
     def compose(year, month, day)

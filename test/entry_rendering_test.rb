@@ -13,21 +13,24 @@ class EntryRenderingTest < Minitest::Test
 
   def test_missing_end_date_renders_present
     each_template do |name, render|
-      assert_equal ["2020 - Present"], badges(render.call([{ "start_date" => "2020-01-01" }])),
+      expected = name == "experience" ? "Jan. 2020 - Present" : "2020 - Present"
+      assert_equal [expected], badges(render.call([{ "start_date" => "2020-01-01" }])),
                    "#{name}.liquid should label an open-ended entry as Present"
     end
   end
 
   def test_blank_end_date_renders_present
     each_template do |name, render|
-      assert_equal ["2020 - Present"], badges(render.call([{ "startDate" => "2020-01-01", "endDate" => "" }])),
+      expected = name == "experience" ? "Jan. 2020 - Present" : "2020 - Present"
+      assert_equal [expected], badges(render.call([{ "startDate" => "2020-01-01", "endDate" => "" }])),
                    "#{name}.liquid should label a blank end date as Present"
     end
   end
 
   def test_closed_entry_renders_both_years
     each_template do |name, render|
-      assert_equal ["2015 - 2018"], badges(render.call([{ "start_date" => "2015-03-01", "end_date" => "2018-06-30" }])),
+      expected = name == "experience" ? "Mar. 2015 - Jun. 2018" : "2015 - 2018"
+      assert_equal [expected], badges(render.call([{ "start_date" => "2015-03-01", "end_date" => "2018-06-30" }])),
                    "#{name}.liquid should render the start and end years"
     end
   end

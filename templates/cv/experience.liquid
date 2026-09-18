@@ -29,13 +29,14 @@
           {% assign point_date = point_date | strip %}
 
           {% if start_date != '' %}
-            {% comment %} Extract year only from dates like "1933-01-01" or just use "1933" as is {% endcomment %}
-            {% assign startDate = start_date | split: '-' | first %}
-            {% assign endDate = end_date | split: '-' | first | default: 'Present' %}
-            {% assign date = startDate | append: ' - ' | append: endDate %}
+            {% assign date = start_date | al_cv_format_date %}
+            {% assign formatted_end_date = end_date | al_cv_format_date %}
+            {% if formatted_end_date == '' %}
+              {% assign formatted_end_date = 'Present' %}
+            {% endif %}
+            {% assign date = date | append: ' - ' | append: formatted_end_date %}
           {% elsif point_date != '' %}
-            {% comment %} A standalone date is a point in time, never an open-ended range, so it renders as a single year {% endcomment %}
-            {% assign date = point_date | split: '-' | first %}
+            {% assign date = point_date | al_cv_format_date %}
           {% else %}
             {% assign date = null %}
           {% endif %}
@@ -45,7 +46,7 @@
               <tr>
                 <td>
                   {% if date %}
-                    <span class="badge experience-date font-weight-bold danger-color-dark text-uppercase align-middle" style="min-width: 75px">{{ date }}</span>
+                    <span class="badge experience-date danger-color-dark text-uppercase align-middle" style="min-width: 75px">{{ date }}</span>
                   {% endif %}
                 </td>
               </tr>
@@ -79,22 +80,22 @@
           {% endcapture %}
 
           {% if entry.url %}
-            <h6 class="title font-weight-bold">
+            <h6 class="title experience-role">
               <a href="{{ entry.url }}">{{ position_title }}</a>
             </h6>
           {% elsif position_title != '' %}
-            <h6 class="title font-weight-bold">{{ position_title }}</h6>
+            <h6 class="title experience-role">{{ position_title }}</h6>
           {% endif %}
 
           {% capture company_name %}
             {% if entry.name %}{{ entry.name }}{% elsif entry.company %}{{ entry.company }}{% elsif entry.organization %}{{ entry.organization }}{% endif %}
           {% endcapture %}
           {% if company_name != '' %}
-            <h6 style="font-size: 0.95rem">{{ company_name }}</h6>
+            <h6 class="experience-company">{{ company_name }}</h6>
           {% endif %}
 
           {% if entry.summary %}
-            <h6 style="font-size: 0.95rem; font-style: italic">
+            <h6 class="experience-summary" style="font-style: italic">
               {{ entry.summary | markdownify | remove: '<p>' | remove: '</p>' }}
             </h6>
           {% endif %}

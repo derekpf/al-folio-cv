@@ -14,9 +14,10 @@ class PointDateRenderingTest < Minitest::Test
   # Sections that only ever render a single point-in-time date.
   POINT_TEMPLATES = %w[awards publications].freeze
 
-  def test_bare_date_renders_a_year_badge
+  def test_bare_date_renders_a_month_year_badge
     each_template(RANGE_TEMPLATES) do |name, render|
-      assert_equal ["2023"], badges(render.call([{ "date" => "2023-05-01" }])),
+      expected = name == "experience" ? "May 2023" : "2023"
+      assert_equal [expected], badges(render.call([{ "date" => "2023-05-01" }])),
                    "#{name}.liquid should render a badge for an entry with only a `date`"
     end
   end
@@ -37,10 +38,11 @@ class PointDateRenderingTest < Minitest::Test
     end
   end
 
-  def test_yaml_date_objects_render_a_year_badge
+  def test_yaml_date_objects_render_a_month_year_badge
     # Unquoted YAML dates in `cv.yml` reach the templates as Ruby Date objects.
     each_template(RANGE_TEMPLATES) do |name, render|
-      assert_equal ["2019"], badges(render.call([{ "date" => Date.new(2019, 7, 4) }])),
+      expected = name == "experience" ? "Jul. 2019" : "2019"
+      assert_equal [expected], badges(render.call([{ "date" => Date.new(2019, 7, 4) }])),
                    "#{name}.liquid should render a badge for a YAML date object"
     end
   end
@@ -48,7 +50,8 @@ class PointDateRenderingTest < Minitest::Test
   def test_release_date_is_accepted_as_a_point_date
     # `al_cv_sort_by_date` sorts on `releaseDate` too, so rendering follows it.
     each_template(RANGE_TEMPLATES) do |name, render|
-      assert_equal ["2016"], badges(render.call([{ "releaseDate" => "2016-11-02" }])),
+      expected = name == "experience" ? "Nov. 2016" : "2016"
+      assert_equal [expected], badges(render.call([{ "releaseDate" => "2016-11-02" }])),
                    "#{name}.liquid should render a badge for a JSONResume `releaseDate`"
     end
   end
@@ -62,16 +65,18 @@ class PointDateRenderingTest < Minitest::Test
 
   def test_start_date_still_wins_over_a_bare_date
     each_template(RANGE_TEMPLATES) do |name, render|
-      assert_equal ["2020 - Present"], badges(render.call([{ "start_date" => "2020-01-01", "date" => "1999-01-01" }])),
+      expected = name == "experience" ? "Jan. 2020 - Present" : "2020 - Present"
+      assert_equal [expected], badges(render.call([{ "start_date" => "2020-01-01", "date" => "1999-01-01" }])),
                    "#{name}.liquid should keep rendering the start/end pair when both are present"
     end
   end
 
   def test_start_end_pair_is_unaffected_by_the_fallback
     each_template(RANGE_TEMPLATES) do |name, render|
-      assert_equal ["2015 - 2018"], badges(render.call([{ "start_date" => "2015-03-01", "end_date" => "2018-06-30" }])),
+      expected = name == "experience" ? "Mar. 2015 - Jun. 2018" : "2015 - 2018"
+      assert_equal [expected], badges(render.call([{ "start_date" => "2015-03-01", "end_date" => "2018-06-30" }])),
                    "#{name}.liquid should render a closed start/end range unchanged"
-      assert_equal ["2015 - 2018"], badges(render.call([{ "startDate" => "2015-03-01", "endDate" => "2018-06-30" }])),
+      assert_equal [expected], badges(render.call([{ "startDate" => "2015-03-01", "endDate" => "2018-06-30" }])),
                    "#{name}.liquid should render a closed camelCase range unchanged"
     end
   end
