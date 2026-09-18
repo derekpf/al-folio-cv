@@ -91,7 +91,9 @@
             {% if entry.name %}{{ entry.name }}{% elsif entry.company %}{{ entry.company }}{% elsif entry.organization %}{{ entry.organization }}{% endif %}
           {% endcapture %}
           {% if company_name != '' %}
-            <h6 class="experience-company"><em>{{ company_name }}</em></h6>
+            <h6 class="experience-company">
+              <em class="experience-company-name">{{ company_name }}</em>
+            </h6>
           {% endif %}
 
           {% if entry.summary %}

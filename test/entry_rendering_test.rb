@@ -78,7 +78,13 @@ class EntryRenderingTest < Minitest::Test
   def test_experience_company_is_italicized
     output = each_template_render("experience", [{ "company" => "Acme Robotics" }])
 
-    assert_match(/<h6 class="experience-company"><em>\s*Acme Robotics\s*<\/em><\/h6>/, output)
+    assert_match(
+      /<h6 class="experience-company">\s*<em class="experience-company-name">\s*Acme Robotics\s*<\/em>\s*<\/h6>/,
+      output
+    )
+
+    css = ROOT.join("assets/css/al-folio-cv.css").read
+    assert_includes css, "em.experience-company-name{font-style:oblique 7deg}"
   end
 
   private
