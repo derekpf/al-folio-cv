@@ -87,6 +87,12 @@ class EntryRenderingTest < Minitest::Test
     assert_includes css, "em.experience-company-name{font-style:oblique 14deg}"
   end
 
+  def test_experience_date_border_is_thickened
+    css = ROOT.join("assets/css/al-folio-cv.css").read
+
+    assert_includes css, "table.experience-location-table tr:first-child td{border-top:2px solid var(--global-divider-color)}"
+  end
+
   private
 
   def each_template
