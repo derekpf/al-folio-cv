@@ -155,8 +155,8 @@ class DateSortingTest < Minitest::Test
   end
 
   def test_formats_compact_month_year_dates
-    assert_equal "Apr. 2026", AlFolioCv::DateSorting.format("2026-04")
-    assert_equal "Aug. 2026", AlFolioCv::DateSorting.format("2026-08-01")
+    assert_equal "04/26", AlFolioCv::DateSorting.format("2026-04")
+    assert_equal "08/26", AlFolioCv::DateSorting.format("2026-08-01")
     assert_equal "Present", AlFolioCv::DateSorting.format("present")
     assert_equal "2026", AlFolioCv::DateSorting.format("2026")
   end
@@ -164,7 +164,7 @@ class DateSortingTest < Minitest::Test
   def test_date_format_filter_is_registered_with_liquid
     template = Liquid::Template.parse("{{ value | al_cv_format_date }}")
 
-    assert_equal "Aug. 2025", template.render("value" => "2025-08")
+    assert_equal "08/25", template.render("value" => "2025-08")
   end
 
   def test_render_template_sorts_experience_and_education

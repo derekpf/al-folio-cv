@@ -26,8 +26,6 @@ module AlFolioCv
 
     ONGOING_RANK = Float::INFINITY
     UNDATED_RANK = -Float::INFINITY
-    MONTH_LABELS = %w[Jan. Feb. Mar. Apr. May Jun. Jul. Aug. Sep. Oct. Nov. Dec.].freeze
-
     module_function
 
     # Returns a new array ordered by end date descending, then start date
@@ -133,7 +131,7 @@ module AlFolioCv
     def format_parts(year, month)
       return year.to_i.to_s unless month && month.between?(1, 12)
 
-      "#{MONTH_LABELS[month - 1]} #{year}"
+      "%02d/%02d" % [month, year.to_i % 100]
     end
 
     def compose(year, month, day)
