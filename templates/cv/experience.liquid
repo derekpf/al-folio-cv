@@ -5,11 +5,11 @@
   - JSONResume: name, position, startDate, endDate, location, url, summary, highlights
 {% endcomment %}
 
-<ul class="card-text font-weight-light list-group list-group-flush">
+<ul class="card-text font-weight-light list-group list-group-flush experience-list">
   {% for entry in entries %}
     <li class="list-group-item">
       <div class="row experience-row">
-        <div class="col-xs-2 col-sm-2 col-md-2 text-center date-column">
+        <div class="col col-sm-2 abbr text-center experience-location-column">
           {% comment %} `capture` keeps the surrounding whitespace, so strip before testing for emptiness {% endcomment %}
           {% capture start_date %}
             {% if entry.start_date %}{{ entry.start_date }}{% elsif entry.startDate %}{{ entry.startDate }}{% endif %}
@@ -40,7 +40,7 @@
             {% assign date = null %}
           {% endif %}
 
-          <table class="table-cv">
+          <table class="table-cv experience-location-table">
             <tbody>
               <tr>
                 <td>
@@ -73,28 +73,28 @@
             </tbody>
           </table>
         </div>
-        <div class="col-xs-10 col-sm-10 col-md-10 mt-2 mt-md-0 experience-details">
+        <div class="col-sm-10 experience-details">
           {% capture position_title %}
             {% if entry.position %}{{ entry.position }}{% endif %}
           {% endcapture %}
 
           {% if entry.url %}
-            <h6 class="title font-weight-bold ml-1 ml-md-4">
+            <h6 class="title font-weight-bold">
               <a href="{{ entry.url }}">{{ position_title }}</a>
             </h6>
           {% elsif position_title != '' %}
-            <h6 class="title font-weight-bold ml-1 ml-md-4">{{ position_title }}</h6>
+            <h6 class="title font-weight-bold">{{ position_title }}</h6>
           {% endif %}
 
           {% capture company_name %}
             {% if entry.name %}{{ entry.name }}{% elsif entry.company %}{{ entry.company }}{% elsif entry.organization %}{{ entry.organization }}{% endif %}
           {% endcapture %}
           {% if company_name != '' %}
-            <h6 class="ml-1 ml-md-4" style="font-size: 0.95rem">{{ company_name }}</h6>
+            <h6 style="font-size: 0.95rem">{{ company_name }}</h6>
           {% endif %}
 
           {% if entry.summary %}
-            <h6 class="ml-1 ml-md-4" style="font-size: 0.95rem; font-style: italic">
+            <h6 style="font-size: 0.95rem; font-style: italic">
               {{ entry.summary | markdownify | remove: '<p>' | remove: '</p>' }}
             </h6>
           {% endif %}
