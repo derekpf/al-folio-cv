@@ -91,6 +91,7 @@ class EntryRenderingTest < Minitest::Test
     css = ROOT.join("assets/css/al-folio-cv.css").read
 
     assert_includes css, "table.experience-location-table tr:first-child td{border-top:2px solid var(--global-divider-color)}"
+    assert_includes css, "table.experience-location-table tr:nth-child(2) td{border-top:2px solid var(--global-divider-color)}"
   end
 
   private
