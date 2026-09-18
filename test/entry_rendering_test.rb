@@ -84,7 +84,7 @@ class EntryRenderingTest < Minitest::Test
     )
 
     css = ROOT.join("assets/css/al-folio-cv.css").read
-    assert_includes css, "em.experience-company-name{font-style:oblique 7deg}"
+    assert_includes css, "em.experience-company-name{font-style:oblique 14deg}"
   end
 
   private
