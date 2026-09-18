@@ -63,11 +63,13 @@ class EntryRenderingTest < Minitest::Test
     each_template do |name, render|
       output = render.call([{ "start_date" => "2020-01-01", "location" => "Berlin, Germany" }])
 
-      assert_includes output, "iconlocation", "#{name}.liquid should render a location row when a location is set"
       if name == "experience"
+        refute_includes output, "iconlocation"
+        assert_includes output, '<span class="location-line location-icon-line" aria-hidden="true">&nbsp;</span>'
         assert_includes output, '<span class="location-line">Berlin</span>'
         assert_includes output, '<span class="location-line">Germany</span>'
       else
+        assert_includes output, "iconlocation", "#{name}.liquid should render a location row when a location is set"
         assert_includes output, "Berlin, Germany"
       end
     end
