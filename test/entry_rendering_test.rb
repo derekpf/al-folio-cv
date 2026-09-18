@@ -94,6 +94,12 @@ class EntryRenderingTest < Minitest::Test
     assert_includes css, "table.experience-location-table tr:nth-child(2) td{border-top:2px solid var(--global-divider-color)}"
   end
 
+  def test_experience_details_use_the_original_column_width
+    css = ROOT.join("assets/css/al-folio-cv.css").read
+
+    assert_includes css, "div.experience-details{flex:0 0 83.333333%;max-width:83.333333%}"
+  end
+
   private
 
   def each_template
