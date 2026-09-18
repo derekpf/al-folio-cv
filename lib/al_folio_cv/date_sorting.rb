@@ -84,7 +84,7 @@ module AlFolioCv
           parse(end_raw, :end)
         elsif start_rank
           # A start date with no end date means the entry is still running,
-          # which is also how the templates render it ("2020 - Present"). A
+          # which is also how the templates render it ("2020 — Present"). A
           # standalone `date` is a point in time and never counts as ongoing.
           ONGOING_RANK
         else

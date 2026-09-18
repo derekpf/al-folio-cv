@@ -34,7 +34,7 @@
             {% if formatted_end_date == '' %}
               {% assign formatted_end_date = 'Present' %}
             {% endif %}
-            {% assign date = date | append: ' - ' | append: formatted_end_date %}
+            {% assign date = date | append: ' — ' | append: formatted_end_date %}
           {% elsif point_date != '' %}
             {% assign date = point_date | al_cv_format_date %}
           {% else %}
@@ -91,7 +91,7 @@
             {% if entry.name %}{{ entry.name }}{% elsif entry.company %}{{ entry.company }}{% elsif entry.organization %}{{ entry.organization }}{% endif %}
           {% endcapture %}
           {% if company_name != '' %}
-            <h6 class="experience-company">{{ company_name }}</h6>
+            <h6 class="experience-company"><em>{{ company_name }}</em></h6>
           {% endif %}
 
           {% if entry.summary %}

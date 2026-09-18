@@ -65,7 +65,7 @@ class PointDateRenderingTest < Minitest::Test
 
   def test_start_date_still_wins_over_a_bare_date
     each_template(RANGE_TEMPLATES) do |name, render|
-      expected = name == "experience" ? "01/20 - Present" : "2020 - Present"
+      expected = name == "experience" ? "01/20 — Present" : "2020 - Present"
       assert_equal [expected], badges(render.call([{ "start_date" => "2020-01-01", "date" => "1999-01-01" }])),
                    "#{name}.liquid should keep rendering the start/end pair when both are present"
     end
@@ -73,7 +73,7 @@ class PointDateRenderingTest < Minitest::Test
 
   def test_start_end_pair_is_unaffected_by_the_fallback
     each_template(RANGE_TEMPLATES) do |name, render|
-      expected = name == "experience" ? "03/15 - 06/18" : "2015 - 2018"
+      expected = name == "experience" ? "03/15 — 06/18" : "2015 - 2018"
       assert_equal [expected], badges(render.call([{ "start_date" => "2015-03-01", "end_date" => "2018-06-30" }])),
                    "#{name}.liquid should render a closed start/end range unchanged"
       assert_equal [expected], badges(render.call([{ "startDate" => "2015-03-01", "endDate" => "2018-06-30" }])),
