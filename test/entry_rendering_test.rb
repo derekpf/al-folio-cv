@@ -114,7 +114,9 @@ class EntryRenderingTest < Minitest::Test
     assert_includes css, "table.experience-location-table td{padding-left:0;padding-right:0;border:0}"
     assert_includes css, "table-layout:fixed"
     assert_includes css, "p.experience-location{top:0;margin:0;white-space:normal;overflow-wrap:anywhere}"
-    assert_includes css, "div.cv ul.experience-list>li.list-group-item+li.list-group-item{margin-top:3rem}"
+    assert_includes css, "div.experience-location-border .experience-date,div.experience-location-border p.experience-location{line-height:1}"
+    assert_includes css, "div.cv ul.experience-list>li.list-group-item+li.list-group-item{margin-top:22.5px}"
+    assert_includes css, "@media (min-width:576px){div.cv ul.experience-list>li.list-group-item+li.list-group-item{margin-top:26.5px}}"
     assert_includes css, "h6.experience-role,h6.experience-company{font-size:1.0555556rem}"
     assert_includes css, "h6.experience-role{margin-bottom:calc(.25rem / 1.5)}"
   end
