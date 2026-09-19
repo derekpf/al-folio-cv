@@ -110,7 +110,7 @@ class EntryRenderingTest < Minitest::Test
     refute_includes css, "table.experience-location-table tr:nth-child(2) td{border-top:"
     refute_includes css, "location-state-border"
     assert_includes css, "div.experience-location-border{width:100%;max-width:100%;padding-left:0;padding-right:0}"
-    assert_includes css, "div.experience-location-border{padding-top:.25rem;padding-bottom:.25rem}"
+    assert_includes css, "div.experience-location-border{padding-top:.25rem;padding-bottom:.375rem}"
     assert_includes css, "table.experience-location-table td{padding-left:0;padding-right:0;border:0}"
     assert_includes css, "table-layout:fixed"
     assert_includes css, "p.experience-location{top:0;margin:0;white-space:normal;overflow-wrap:anywhere}"
@@ -118,14 +118,15 @@ class EntryRenderingTest < Minitest::Test
     assert_includes css, "div.cv ul.experience-list>li.list-group-item+li.list-group-item{margin-top:22.5px}"
     assert_includes css, "@media (min-width:576px){div.cv ul.experience-list>li.list-group-item+li.list-group-item{margin-top:26.5px}}"
     assert_includes css, "h6.experience-role,h6.experience-company{font-size:1.0555556rem}"
-    assert_includes css, "h6.experience-role{margin-bottom:calc(.25rem / 1.5)}"
+    assert_includes css, "h6.experience-role{margin-bottom:0}"
+    assert_includes css, "h2.previous-role-heading{margin-bottom:22.5px}"
   end
 
   def test_experience_details_use_the_original_column_width
     css = ROOT.join("assets/css/al-folio-cv.css").read
 
     assert_includes css, "div.experience-details{flex:0 0 83.333333%;max-width:83.333333%}"
-    assert_includes css, "div.experience-details>.description-border{width:100%;max-width:100%}"
+    assert_includes css, "div.experience-details>.description-border{width:fit-content;max-width:100%}"
   end
 
   private
