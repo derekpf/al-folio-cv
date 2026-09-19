@@ -65,9 +65,8 @@ class EntryRenderingTest < Minitest::Test
 
       if name == "experience"
         refute_includes output, "iconlocation"
-        assert_includes output, '<span class="location-line location-icon-line" aria-hidden="true">&nbsp;</span>'
-        assert_includes output, '<span class="location-line">Berlin</span>'
-        assert_includes output, '<span class="location-line">Germany</span>'
+        assert_includes output, '<div class="description-border experience-location-border">'
+        assert_match(/<span class="location-line(?: experience-location-text)?">\s*Berlin, Germany\s*<\/span>/, output)
       else
         assert_includes output, "iconlocation", "#{name}.liquid should render a location row when a location is set"
         assert_includes output, "Berlin, Germany"
@@ -75,29 +74,56 @@ class EntryRenderingTest < Minitest::Test
     end
   end
 
+  def test_city_only_experience_location_has_no_state_border
+    output = each_template_render("experience", [{ "start_date" => "2020-01-01", "location" => "San Jose" }])
+
+    assert_match(/<span class="location-line(?: experience-location-text)?">\s*San Jose\s*<\/span>/, output)
+    refute_includes output, "location-state-border"
+  end
+
   def test_experience_company_is_italicized
     output = each_template_render("experience", [{ "company" => "Acme Robotics" }])
 
     assert_match(
-      /<h6 class="experience-company">\s*<em class="experience-company-name">\s*Acme Robotics\s*<\/em>\s*<\/h6>/,
+      /<h6 class="experience-company description-title">\s*<em class="experience-company-name">\s*Acme Robotics\s*<\/em>\s*<\/h6>/,
       output
     )
 
     css = ROOT.join("assets/css/al-folio-cv.css").read
     assert_includes css, "em.experience-company-name{font-style:oblique 14deg}"
+    assert_includes css, "em.experience-company-name{opacity:1}"
+    assert_includes css, "div.experience-details .experience-company.description-title{font-weight:400!important}"
   end
 
-  def test_experience_date_border_is_thickened
+  def test_experience_location_box_uses_the_shared_border
+    template = ROOT.join("templates/cv/experience.liquid").read
     css = ROOT.join("assets/css/al-folio-cv.css").read
 
-    assert_includes css, "table.experience-location-table tr:first-child td{border-top:2px solid var(--global-divider-color)}"
-    assert_includes css, "table.experience-location-table tr:nth-child(2) td{border-top:2px solid var(--global-divider-color)}"
+    assert_includes template, '<div class="description-border experience-location-border">'
+    assert_includes template, 'experience-date experience-location-text'
+    assert_includes template, 'location-line experience-location-text'
+    assert_includes template, 'description-title'
+    assert_includes css, 'div.experience-location-border .experience-location-text{transition:color .2s ease}'
+    assert_includes css, 'div.experience-location-border:hover .experience-location-text'
+    assert_includes css, '@media (prefers-reduced-motion:reduce){div.experience-location-border .experience-location-text{transition:none}html.transition div.experience-location-border .experience-location-text{transition:none!important}}'
+    refute_includes css, "table.experience-location-table tr:first-child td{border-top:"
+    refute_includes css, "table.experience-location-table tr:nth-child(2) td{border-top:"
+    refute_includes css, "location-state-border"
+    assert_includes css, "div.experience-location-border{width:100%;max-width:100%;padding-left:0;padding-right:0}"
+    assert_includes css, "div.experience-location-border{padding-top:.25rem;padding-bottom:.25rem}"
+    assert_includes css, "table.experience-location-table td{padding-left:0;padding-right:0;border:0}"
+    assert_includes css, "table-layout:fixed"
+    assert_includes css, "p.experience-location{top:0;margin:0;white-space:normal;overflow-wrap:anywhere}"
+    assert_includes css, "div.cv ul.experience-list>li.list-group-item+li.list-group-item{margin-top:3rem}"
+    assert_includes css, "h6.experience-role,h6.experience-company{font-size:1.0555556rem}"
+    assert_includes css, "h6.experience-role{margin-bottom:calc(.25rem / 1.5)}"
   end
 
   def test_experience_details_use_the_original_column_width
     css = ROOT.join("assets/css/al-folio-cv.css").read
 
     assert_includes css, "div.experience-details{flex:0 0 83.333333%;max-width:83.333333%}"
+    assert_includes css, "div.experience-details>.description-border{width:100%;max-width:100%}"
   end
 
   private

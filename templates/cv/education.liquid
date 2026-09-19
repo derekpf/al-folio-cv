@@ -67,24 +67,25 @@
           </table>
         </div>
         <div class="col-xs-10 col-sm-10 col-md-10 mt-2 mt-md-0">
+          <div class="description-border">
           {% capture study_type %}
             {% if entry.studyType %}{{ entry.studyType }}{% elsif entry.degree %}{{ entry.degree }}{% endif %}
           {% endcapture %}
 
           {% if entry.url %}
-            <h6 class="title font-weight-bold ml-1 ml-md-4">
+            <h6 class="title font-weight-bold">
               <a href="{{ entry.url }}">{{ study_type }}</a>
             </h6>
           {% elsif study_type != '' %}
-            <h6 class="title font-weight-bold ml-1 ml-md-4">{{ study_type }}</h6>
+            <h6 class="title font-weight-bold">{{ study_type }}</h6>
           {% endif %}
 
           {% if entry.institution %}
-            <h6 class="ml-1 ml-md-4" style="font-size: 0.95rem">{{ entry.institution }}</h6>
+            <h6 style="font-size: 0.95rem">{{ entry.institution }}</h6>
           {% endif %}
 
           {% if entry.area %}
-            <h6 class="ml-1 ml-md-4" style="font-size: 0.95rem; font-style: italic">{{ entry.area }}</h6>
+            <h6 style="font-size: 0.95rem; font-style: italic">{{ entry.area }}</h6>
           {% endif %}
 
           {% if entry.courses or entry.highlights %}
@@ -101,6 +102,7 @@
               {% endfor %}
             </ul>
           {% endif %}
+          </div>
         </div>
       </div>
     </li>

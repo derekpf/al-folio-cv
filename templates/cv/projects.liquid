@@ -75,10 +75,12 @@
               </tbody>
             </table>
           </div>
-          <div class="col-xs-10 col-sm-10 col-md-10 mt-2 mt-md-0">{{ entry_body }}</div>
+          <div class="col-xs-10 col-sm-10 col-md-10 mt-2 mt-md-0">
+            <div class="description-border">{{ entry_body }}</div>
+          </div>
         </div>
       {% else %}
-        {{ entry_body }}
+        <div class="description-border">{{ entry_body }}</div>
       {% endif %}
     </li>
   {% endfor %}
