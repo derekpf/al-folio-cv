@@ -126,7 +126,7 @@ class EntryRenderingTest < Minitest::Test
     css = ROOT.join("assets/css/al-folio-cv.css").read
 
     assert_includes css, "div.experience-details{flex:0 0 83.333333%;max-width:83.333333%}"
-    assert_includes css, "div.experience-details>.description-border{width:fit-content;max-width:100%}"
+    assert_includes css, "div.experience-details>.description-border{width:100%;max-width:100%}"
   end
 
   private
