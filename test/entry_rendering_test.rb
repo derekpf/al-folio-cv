@@ -122,10 +122,12 @@ class EntryRenderingTest < Minitest::Test
     assert_includes css, "h2.previous-role-heading{margin-bottom:22.5px}"
   end
 
-  def test_experience_details_use_the_original_column_width
+  def test_experience_details_use_the_shared_description_width
+    template = ROOT.join("templates/cv/experience.liquid").read
     css = ROOT.join("assets/css/al-folio-cv.css").read
 
-    assert_includes css, "div.experience-details{flex:0 0 83.333333%;max-width:83.333333%}"
+    assert_includes template, '<div class="col-sm-8 experience-details">'
+    assert_includes css, "div.experience-details{flex:0 0 66.6667%;max-width:66.6667%}"
     assert_includes css, "div.experience-details>.description-border{width:100%;max-width:100%}"
   end
 
